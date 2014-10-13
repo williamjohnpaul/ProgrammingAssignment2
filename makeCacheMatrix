@@ -1,0 +1,34 @@
+## returns a list of functions for inverting a matrix.
+## x is the Square matrix 
+## the invx is NULL until set by passing the list object
+## created by makeCacheMatrix as the argument
+## of cacheSolve, below)
+
+makeCacheMatrix <- function(x = matrix()) {
+        invx <- NULL
+        set <- function(y) {
+                x <<- y
+                invx <<- NULL
+        }
+        get <- function() x
+        setinvx <- function(inverse) invx <<- inverse
+        getinvx <- function() invx
+        list(set = set, get = get,
+             setinvx = setinvx,
+             getinvx = getinvx)
+}
+ 
+## takes a function list object, such as produced above
+## and updates the invx with the inversion of its stored SQUARE matrix.
+
+cacheSolve <- function(x, ...) {
+        invx <- x$getinvx()
+        if(!is.null(invx)) {
+                message("getting cached data")
+                return(invx)
+        }
+        data <- x$get()
+        invx <- solve(data)
+        x$setinvx(invx)
+        invx
+}
